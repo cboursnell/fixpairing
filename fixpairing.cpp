@@ -51,9 +51,49 @@ int FixPairing::scan_left(char* infile, char* outfile) {
     cout << "done..." << endl;
 }
 
+int FixPairing::check(char* leftfile, char* rightfile) {
+    cout << "checking left and right" << endl;
+    std::ifstream left(leftfile);
+    std::ifstream right(rightfile);
+    string left_header;
+    string left_seq;
+    string left_quals;
+    string right_header;
+    string right_seq;
+    string right_quals;
+    long line = 1;
+
+    while (getline(left, left_header)) {
+      getline(left, left_seq);
+      getline(left, left_quals);
+      getline(left, left_quals);
+
+      getline(right, right_header);
+      getline(right, right_seq);
+      getline(right, right_quals);
+      getline(right, right_quals);
+
+      left_header = left_header.substr(0, left_header.length()-2);
+      right_header = right_header.substr(0, right_header.length()-2);
+
+      if (left_header.compare(right_header) != 0) {
+        cout << "headers mismatched at line " << line << endl;
+        break;
+      }
+      line += 4;
+
+    }
+
+
+}
+
 // fixpairing left right output
 int main (int argc, char* argv[]) {
-  if (argc == 4) {
+  if (argc == 3) {
+    FixPairing checker;
+    checker.check(argv[1], argv[2]);
+    //
+  } else if (argc == 4) {
     FixPairing fixer;
     // store left file
     fixer.load_right(argv[2]);
@@ -62,8 +102,11 @@ int main (int argc, char* argv[]) {
 
     return 0;
   } else {
-    cout << "fixpairing version 0.1\n"
+    cout << "fixpairing version 0.2 - Author Chris Boursnell\n"
          << "Usage:\n"
+         << "Check pairing:\n"
+         << "fixpairing <left> <right>\n"
+         << "Fix Pairing:\n"
          << "fixpairing <left> <right> <fixed_right>"
          << endl;
     return 1;

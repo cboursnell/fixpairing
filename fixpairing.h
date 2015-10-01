@@ -21,4 +21,5 @@ public:
   std::unordered_map<std::string, entry> store;
   int load_right(char*);
   int scan_left(char*, char*);
+  int check(char*, char*);
 };
