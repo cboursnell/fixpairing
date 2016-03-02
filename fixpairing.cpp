@@ -12,7 +12,7 @@ int FixPairing::load_right(char* infile) {
     getline(right, quals);
 
     entry e;
-    header = header.substr(0, header.length()-3);
+    header = header.substr(0, header.length()-2);
     e.seq = seq;
     e.quals = quals;
     store[header] = e;
@@ -38,7 +38,7 @@ int FixPairing::scan_left(char* leftin, char* leftout, char* rightout) {
     getline(left, quals);
     // store fastq entry
 
-    header = header.substr(0, header.length()-3);
+    header = header.substr(0, header.length()-2);
 
     entry l = store[header];
     if (l.seq.length()>1) {
