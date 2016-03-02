@@ -20,6 +20,7 @@ public:
   std::vector<entry> array;
   std::unordered_map<std::string, entry> store;
   int load_right(char*);
-  int scan_left(char*, char*);
+  int scan_left(char*, char*, char*);
   int check(char*, char*);
+  // int fix(char*, char*, char*);
 };
