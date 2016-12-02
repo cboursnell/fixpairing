@@ -69,6 +69,8 @@ int FixPairing::check(char* leftfile, char* rightfile) {
   string right_header;
   string right_seq;
   string right_quals;
+  size_t found1;
+  size_t found2;
   long line = 1;
 
   while (getline(left, left_header)) {
@@ -81,9 +83,10 @@ int FixPairing::check(char* leftfile, char* rightfile) {
     getline(right, right_quals);
     getline(right, right_quals);
 
-    left_header = left_header.substr(0, left_header.length()-13);
-    right_header = right_header.substr(0, right_header.length()-13);
-
+    found1 = left_header.find(" ");
+    found2 = right_header.find(" ");
+    left_header = left_header.substr(0, found1);
+    right_header = right_header.substr(0, found2);
     if (left_header.compare(right_header) != 0) {
       cout << "headers mismatched at line " << line << endl;
       break;
