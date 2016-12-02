@@ -6,13 +6,15 @@ int FixPairing::load_right(char* infile) {
   string header;
   string seq;
   string quals;
+  size_t found1;
   while (getline(right, header)) {
     getline(right, seq);
     getline(right, quals);
     getline(right, quals);
 
     entry e;
-    header = header.substr(0, header.length()-2);
+    found1 = header.find_first_of(" /");
+    header = header.substr(0, found1);
     e.seq = seq;
     e.quals = quals;
     store[header] = e;
@@ -26,6 +28,7 @@ int FixPairing::scan_left(char* leftin, char* leftout, char* rightout) {
   string header;
   string seq;
   string quals;
+  size_t found1;
 
   std::ofstream output;
   output.open (leftout);
@@ -38,7 +41,8 @@ int FixPairing::scan_left(char* leftin, char* leftout, char* rightout) {
     getline(left, quals);
     // store fastq entry
 
-    header = header.substr(0, header.length()-2);
+    found1 = header.find_first_of(" /");
+    header = header.substr(0, found1);
 
     entry l = store[header];
     if (l.seq.length()>1) {
@@ -83,8 +87,8 @@ int FixPairing::check(char* leftfile, char* rightfile) {
     getline(right, right_quals);
     getline(right, right_quals);
 
-    found1 = left_header.find(" ");
-    found2 = right_header.find(" ");
+    found1 = left_header.find_first_of(" /");
+    found2 = right_header.find_first_of(" /");
     left_header = left_header.substr(0, found1);
     right_header = right_header.substr(0, found2);
     if (left_header.compare(right_header) != 0) {
@@ -150,7 +154,7 @@ int main (int argc, char* argv[]) {
 
     return 0;
   } else {
-    cout << "fixpairing version 0.2 - Author: Chris Boursnell\n"
+    cout << "fixpairing version 0.3 - Author: Chris Boursnell\n"
          << "Usage:\n"
          << "Check pairing:\n"
          << "fixpairing <left> <right>\n"
